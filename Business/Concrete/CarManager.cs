@@ -20,36 +20,26 @@ namespace Business.Concrete
         }
         public IDataResult<Car> GetById(int id)
         {
-            // Debug and Conditions
-
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
         }
 
         public IDataResult<List<Car>> GetAll()
         {
-            // Debug and Conditions
-
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            // Debug and Conditions
-
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
-            // Debug and Conditions
-
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
+           return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
         }
 
         public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
-            // Debug and Conditions
-
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
+           return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
         }
 
         public IResult Add(Car car)
