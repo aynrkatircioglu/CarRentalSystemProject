@@ -1,21 +1,16 @@
-﻿using Business.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Business.Concrete.Utilities;
-using Business.Concrete.Validation.FluentValidation;
+﻿using System.Collections.Generic;
+using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using FluentValidation;
-using FluentValidation.Results;
 
 namespace Business.Concrete
 {
     public class ColorManager : IColorService
     {
-        private IColorDal _colorDal;
+        private readonly IColorDal _colorDal;
 
         public ColorManager(IColorDal colorDal)
         {
@@ -24,7 +19,7 @@ namespace Business.Concrete
 
         public IDataResult<Color> GetById(int id)
         {
-           return new SuccessDataResult<Color>(_colorDal.Get(c => c.Id == id));
+            return new SuccessDataResult<Color>(_colorDal.Get(c => c.Id == id));
         }
 
         public IDataResult<List<Color>> GetAll()
@@ -32,21 +27,27 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
 
+        [SecuredOperation("color.add,moderator,admin")]
         public IResult Add(Color color)
         {
             _colorDal.Add(color);
+
             return new SuccessResult(Messages.ColorAdded);
         }
 
+        [SecuredOperation("color.update,moderator,admin")]
         public IResult Update(Color color)
         {
             _colorDal.Update(color);
+
             return new SuccessResult(Messages.ColorUpdated);
         }
 
+        [SecuredOperation("color.delete,moderator,admin")]
         public IResult Delete(Color color)
         {
             _colorDal.Delete(color);
+
             return new SuccessResult(Messages.ColorDeleted);
         }
     }
